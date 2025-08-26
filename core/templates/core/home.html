@@ -1,0 +1,76 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Kind Code{% endblock %}
+
+{% block content %}
+<!-- HERO: full viewport, unchanged except button target -->
+<header class="hero-section text-center text-white d-flex flex-column justify-content-center align-items-center">
+    <div class="overlay"></div>
+    <div class="content position-relative">
+        <h1 class="display-2 fw-bold text-blue">kind code</h1>
+        <p class="lead text-blue">
+            exploring how technology can
+            <span class="fw-bold">serve beings</span>,
+            one creation a day.
+        </p>
+        <div class="mt-4">
+            <a href="#" class="btn btn-primary btn-lg me-2" data-bs-toggle="modal" data-bs-target="#comingSoonModal">
+                start creating
+            </a>
+
+            <a href="#explore" class="btn btn-outline-blue btn-lg">explore creations</a>
+        </div>
+    </div>
+</header>
+
+<!-- EXPLORE: on the same page -->
+<section id="explore" class="container py-5">
+    <h2 class="display-6 fw-bold text-center mb-4 text-blue">explore creations</h2>
+
+
+    <div class="row g-4">
+        {% for x in items %}
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a href="{{ x.getAbsoluteUrl }}" class="text-decoration-none">
+                <div class="card h-100 border-2 rounded-4">
+                    {% if x.coverUrl %}
+                    <img src="{{ x.coverUrl }}" class="card-img-top rounded-top-4" alt="">
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="badge text-uppercase">{{ x.kind }}</span>
+                        <h3 class="h5 mt-2 text-dark">{{ x.title }}</h3>
+                        <p class="text-muted small mb-0">{{ x.summary|truncatechars:120 }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p class="text-center text-muted">No creations yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+
+
+<!-- Coming Soon Modal -->
+<div class="modal fade" id="comingSoonModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Coming Soon!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="lead mb-3">This feature is still in the works.
+                    We’re excited to let you create your own Kind Code soon 💛</p>
+                <img src="{% static 'img/KindCodeHeader.png' %}" alt="" class="img-fluid rounded-3 mb-3">
+                <p class="small text-muted">Check back tomorrow for something new!</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Okay!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

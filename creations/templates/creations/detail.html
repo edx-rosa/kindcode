@@ -1,0 +1,43 @@
+{% extends "core/base.html" %}
+{% block title %}{{ item.title }} — Kind Code{% endblock %}
+
+{% block content %}
+<section class="container py-4">
+    <div class="mb-3">
+        <a href="{% url 'home' %}" class="btn btn-outline-primary">← back to home</a>
+    </div>
+
+    <article class="mx-auto" style="max-width: 860px;">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge text-uppercase">{{ item.kind }}</span>
+            <span class="text-muted small">{{ item.publishedAt|date:"M d, Y" }}</span>
+        </div>
+
+        <h1 class="display-6 fw-bold">{{ item.title }}</h1>
+
+        {% if item.coverUrl %}
+        <img src="{{ item.coverUrl }}" alt="" class="img-fluid rounded-4 my-3">
+        {% endif %}
+
+        <!-- simple render; later swap to Markdown renderer -->
+        <div class="fs-5">
+            {{ item.bodyMarkdown|linebreaks }}
+        </div>
+
+        <hr class="my-4">
+
+        <div class="d-flex justify-content-between">
+            <div>
+                {% if prevItem %}
+                <a href="{{ prevItem.getAbsoluteUrl }}" class="btn btn-outline-primary">← previous</a>
+                {% endif %}
+            </div>
+            <div>
+                {% if nextItem %}
+                <a href="{{ nextItem.getAbsoluteUrl }}" class="btn btn-outline-primary">next →</a>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+</section>
+{% endblock %}

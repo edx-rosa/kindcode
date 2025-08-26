@@ -1,0 +1,129 @@
+.hero-section {
+    background: url("/static/img/KindCodeHeader.png") no-repeat center center;
+    background-size: cover;
+    min-height: 100vh;
+    position: relative;
+}
+
+.btn-primary {
+    background-color: #fecd1a !important;
+    border-color: #fecd1a !important;
+    color: #02345f !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #ffdb4d !important;
+    /* lighter yellow */
+    border-color: #ffdb4d !important;
+    color: #02345f !important;
+    transform: translateY(-2px);
+    /* subtle lift */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary:active {
+    background-color: #e6b800 !important;
+    /* slightly deeper yellow */
+    border-color: #e6b800 !important;
+    color: #02345f !important;
+    transform: translateY(0);
+    /* reset lift */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-primary {
+    color: #fecd1a !important;
+    border-color: #fecd1a !important;
+    background-color: transparent !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    color: #02345f !important;
+    /* dark text */
+    background-color: #fecd1a !important;
+    /* fill with yellow */
+    border-color: #fecd1a !important;
+    transform: translateY(-2px);
+    /* subtle lift */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-primary:active {
+    color: #02345f !important;
+    background-color: #e6b800 !important;
+    /* slightly deeper yellow */
+    border-color: #e6b800 !important;
+    transform: translateY(0);
+    /* pressed look */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-blue {
+    color: #03457f !important;
+    /* brand blue text */
+    border: 2px solid #03457f !important;
+    background-color: transparent !important;
+    transition: all 0.25s ease-in-out;
+    font-weight: 300;
+}
+
+.btn-outline-blue:hover,
+.btn-outline-blue:focus {
+    color: #fff !important;
+    /* invert to white text */
+    background-color: #03457f !important;
+    /* fill with blue */
+    transform: scale(1.05);
+    /* slight grow instead of lift */
+    box-shadow: 0 0.5rem 1rem rgba(3, 69, 127, 0.3);
+}
+
+.btn-outline-blue:active {
+    background-color: #02345f !important;
+    /* deeper blue */
+    border-color: #02345f !important;
+    transform: scale(0.98);
+    /* pressed shrink */
+    box-shadow: 0 0.25rem 0.5rem rgba(3, 69, 127, 0.3);
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* nice anchor scrolling */
+section#explore {
+    scroll-margin-top: 24px;
+}
+
+/* keeps heading visible after jump */
+
+.text-blue {
+    color: #02345f;
+}
+
+
+
+
+h1,
+h2,
+h3,
+h4,
+.btn {
+    font-family: 'Fredoka One', cursive, sans-serif;
+}
+
+body,
+p {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.badge {
+    background-color: #03457f;
+    color: #fff;
+}
