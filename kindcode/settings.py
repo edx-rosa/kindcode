@@ -29,9 +29,12 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 # Application definition
 
 INSTALLED_APPS = [
-    # Custom Apps
+    # Created Apps
     'core',
     'creations',
+
+    # Library Apps
+    'markdownify',
 
     # Django Apps
     'django.contrib.admin',

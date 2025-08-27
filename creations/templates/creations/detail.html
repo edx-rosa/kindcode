@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load markdownify %}
 {% block title %}{{ item.title }} — Kind Code{% endblock %}
 
 {% block content %}
@@ -21,8 +22,9 @@
 
         <!-- simple render; later swap to Markdown renderer -->
         <div class="fs-5">
-            {{ item.bodyMarkdown|linebreaks }}
+            {{ item.bodyMarkdown|markdownify }}
         </div>
+
 
         <hr class="my-4">
 
