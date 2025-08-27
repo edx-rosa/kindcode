@@ -20,9 +20,8 @@
         <img src="{{ item.coverUrl }}" alt="" class="img-fluid rounded-4 my-3">
         {% endif %}
 
-        <!-- simple render; later swap to Markdown renderer -->
         <div class="fs-5">
-            {{ item.bodyMarkdown|markdownify }}
+            {{ item.bodyMarkdown|markdownify|linebreaksbr }}
         </div>
 
 
