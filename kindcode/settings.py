@@ -111,8 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
-
 USE_I18N = True
 
 USE_TZ = True
@@ -137,3 +135,14 @@ STATICFILES_DIRS = [BASE_DIR / "static"]  # ok to keep as you had
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# EMAIL (safe defaults for local dev; switch to SMTP via .env)
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Kind Code <noreply@kindcode.app>")
+DAILY_EMAIL_TO = os.getenv("DAILY_EMAIL_TO", "")  # "me@example.com,other@example.com"
+
+# Optional: set your local timezone for nicer dates
+TIME_ZONE = os.getenv("TIME_ZONE", "Europe/Amsterdam")
+USE_TZ = True

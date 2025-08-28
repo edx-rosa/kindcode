@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+<body style="margin:0;padding:24px;font-family:Arial,Helvetica,sans-serif;background:#f7fafc;color:#212529;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+        style="max-width:640px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e9ecef;">
+        <tr>
+            <td style="background:#03457f;color:#fff;padding:20px 24px;">
+                <h1 style="margin:0;font-size:22px;letter-spacing:.3px;">Good morning 🌞</h1>
+                <div style="opacity:.9;font-size:14px;">{{ prettyDate }}</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:20px 24px;">
+                <h2 style="margin:0 0 8px 0;font-size:16px;color:#03457f;">Your mission</h2>
+                <p style="margin:0 0 16px 0;font-size:15px;line-height:1.5;">{{ mission }}</p>
+
+                <h2 style="margin:0 0 8px 0;font-size:16px;color:#03457f;">Quote</h2>
+                <blockquote
+                    style="margin:0 0 16px 0;padding:12px 16px;border-left:4px solid #fecd1a;background:#fffbea;">
+                    <div style="font-size:15px;line-height:1.5;">“{{ quote.text }}”</div>
+                    <div style="font-size:13px;color:#6c757d;margin-top:6px;">— {{ quote.author }}</div>
+                </blockquote>
+
+                <h2 style="margin:0 0 8px 0;font-size:16px;color:#03457f;">Today</h2>
+                {% if appointments %}
+                <ul style="padding-left:18px;margin:0 0 8px 0;font-size:15px;line-height:1.6;">
+                    {% for a in appointments %}
+                    <li><strong>{{ a.time }}</strong> — {{ a.title }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p style="margin:0 0 8px 0;">No appointments. Space to breathe 💛</p>
+                {% endif %}
+
+                <p style="margin:16px 0 0 0;color:#6c757d;font-size:12px;">You’re receiving this from Kind Code.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
