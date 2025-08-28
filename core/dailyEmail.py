@@ -14,15 +14,41 @@ def getQuoteOfTheDay():
     return {"text": q, "author": a}
 
 def getTodayAppointments():
-    # MVP: dummy data; replace with Google Calendar or your model later
-    # Show only items for 'today' to keep it honest & useful
+    url = os.getenv("GOOGLE_ICAL_URL", "")
+    if not url:
+        return []  # no calendar configured yet
+
+    try:
+        resp = requests.get(url, timeout=10)
+        resp.raise_for_status()
+    except Exception:
+        # If fetch fails, don’t crash the email; just show nothing for today
+        return []
+
+    cal = Calendar(resp.text)
+
     today = timezone.localdate()
-    # Example static list (edit freely)
-    return [
-        {"time": "07:00", "title": "Workout"},
-        {"time": "12:45", "title": "Walk with Chloé"},
-        {"time": "17:00", "title": "Zoom with Linda"},
-    ]
+    tz = timezone.get_current_timezone()
+    items = []
+
+    for event in cal.events:
+        # event.begin is an Arrow object; convert to your local tz
+        startLocal = event.begin.to(str(tz))
+        eventDate = startLocal.date()
+
+        if eventDate == today or (event.all_day and eventDate == today):
+            if getattr(event, "all_day", False):
+                timeStr = "All day"
+            else:
+                timeStr = startLocal.format("HH:mm")
+            title = (event.name or "Untitled").strip()
+            items.append({"time": timeStr, "title": title})
+
+    # sort by time (all-day first)
+    def sortKey(x):
+        return (x["time"] != "All day", x["time"])
+    items.sort(key=sortKey)
+    return items
 
 def buildEmailContext():
     today = timezone.localdate()
