@@ -19,10 +19,6 @@ class Command(BaseCommand):
 
  
     def handle(self, *args, **options):
-        from django.conf import settings
-        self.stdout.write(f"backend: {settings.EMAIL_BACKEND}")
-        self.stdout.write(f"postmark token present: {bool(settings.POSTMARK_API_TOKEN)}")
-
         ctx = buildEmailContext()
         subject = f"Kind Code — {ctx['prettyDate']}"
         htmlBody = render_to_string("emails/daily.html", ctx)
