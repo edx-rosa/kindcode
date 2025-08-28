@@ -161,9 +161,6 @@ if not DEBUG and EMAIL_BACKEND.endswith("postmark.django_backend.EmailBackend"):
         logger.warning("POSTMARK_API_TOKEN missing in production; falling back to console EmailBackend.")
         EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# (optional) register postmark app only when available
-if "postmark.django_backend" in EMAIL_BACKEND:
-    INSTALLED_APPS += ["postmark.django"]
 
 # Optional: set your local timezone for nicer dates
 TIME_ZONE = os.getenv("TIME_ZONE", "Europe/Amsterdam")
