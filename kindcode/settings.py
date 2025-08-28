@@ -138,29 +138,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-# Email backend
+# use postmarker’s Django Email backend
 EMAIL_BACKEND = os.getenv(
     "EMAIL_BACKEND",
-    "django.core.mail.backends.console.EmailBackend" if DEBUG else "postmark.django_backend.EmailBackend"
+    "django.core.mail.backends.console.EmailBackend" if DEBUG else "postmarker.django.EmailBackend"
 )
 
-# Postmark (only needed in production)
-POSTMARK_API_TOKEN = os.getenv("POSTMARK_API_TOKEN", "")
-POSTMARK_TEST_MODE = False
-POSTMARK_TRACK_OPENS = True
+# postmarker config (reads from env)
+POSTMARK = {
+    "TOKEN": os.getenv("POSTMARK_TOKEN", ""),   # required in prod
+    "TEST_MODE": False,
+    "VERBOSITY": 0,
+}
 
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@kindcode.app")
 DAILY_EMAIL_TO = os.getenv("DAILY_EMAIL_TO", "")
 
+
 # safety: if prod expects Postmark but token is missing, fall back to console
-import logging
-logger = logging.getLogger(__name__)
-
-if not DEBUG and EMAIL_BACKEND.endswith("postmark.django_backend.EmailBackend"):
-    if not POSTMARK_API_TOKEN:
-        logger.warning("POSTMARK_API_TOKEN missing in production; falling back to console EmailBackend.")
-        EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
+if not DEBUG and EMAIL_BACKEND.endswith("postmarker.django.EmailBackend") and not POSTMARK["TOKEN"]:
+    import logging
+    logging.getLogger(__name__).warning("POSTMARK_TOKEN missing; falling back to console backend.")
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Optional: set your local timezone for nicer dates
 TIME_ZONE = os.getenv("TIME_ZONE", "Europe/Amsterdam")
