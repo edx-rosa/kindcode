@@ -1,5 +1,7 @@
 Django==5.0
 python-dotenv==1.0.1
 django-markdownify==0.11.0
+django-postmark==0.4.3
+
 
 

@@ -1,8 +1,18 @@
 from django.core.management.base import BaseCommand
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from django.conf import settings
 from core.dailyEmail import buildEmailContext
+
+def safeSend(msg, stdout):
+    try:
+        msg.send()
+        return True
+    except Exception as e:
+        stdout.write(f"Email send failed: {e}\nFalling back to console EmailBackend…")
+        consoleConn = get_connection("django.core.mail.backends.console.EmailBackend")
+        consoleConn.send_messages([msg])
+        return False
 
 class Command(BaseCommand):
     help = "Send the daily Kind Code email"
@@ -37,5 +47,10 @@ Today:
             to=toList,
         )
         msg.attach_alternative(htmlBody, "text/html")
-        msg.send()
+        sentOk = safeSend(msg, self.stdout)
+        if sentOk:
+            self.stdout.write(self.style.SUCCESS(f"Daily email sent to: {', '.join(toList)}"))
+        else:
+            self.stdout.write(self.style.WARNING("Delivered to console (fallback)."))
+
         self.stdout.write(self.style.SUCCESS(f"Daily email sent to: {', '.join(toList)}"))

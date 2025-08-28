@@ -138,10 +138,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-# EMAIL (safe defaults for local dev; switch to SMTP via .env)
-EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Kind Code <noreply@kindcode.app>")
-DAILY_EMAIL_TO = os.getenv("DAILY_EMAIL_TO", "")  # "me@example.com,other@example.com"
+# Email backend
+EMAIL_BACKEND = os.getenv(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend" if DEBUG else "postmark.django_backend.EmailBackend"
+)
+
+# Postmark (only needed in production)
+POSTMARK_API_TOKEN = os.getenv("POSTMARK_API_TOKEN", "")
+POSTMARK_TEST_MODE = False
+POSTMARK_TRACK_OPENS = True
+
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@kindcode.app")
+DAILY_EMAIL_TO = os.getenv("DAILY_EMAIL_TO", "")
+
+# safety: if prod expects Postmark but token is missing, fall back to console
+import logging
+logger = logging.getLogger(__name__)
+
+if not DEBUG and EMAIL_BACKEND.endswith("postmark.django_backend.EmailBackend"):
+    if not POSTMARK_API_TOKEN:
+        logger.warning("POSTMARK_API_TOKEN missing in production; falling back to console EmailBackend.")
+        EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# (optional) register postmark app only when available
+if "postmark.django_backend" in EMAIL_BACKEND:
+    INSTALLED_APPS += ["postmark.django"]
 
 # Optional: set your local timezone for nicer dates
 TIME_ZONE = os.getenv("TIME_ZONE", "Europe/Amsterdam")
