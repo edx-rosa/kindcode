@@ -1,3 +1,6 @@
+import os
+import requests
+from ics import Calendar
 from django.utils import timezone
 import random
 
